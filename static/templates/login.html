@@ -17,7 +17,7 @@
             <a href="register.html">新用户注册</a>
         </p>
         <hr>
-        <form action="" onsubmit="return sub()">
+        <form action="" method="POST">
             <div>
                 <input type="text"
                        placeholder="请输入用户名"
@@ -58,15 +58,24 @@
         var inputdata = {'username':username,'password':password}
         $('#bt-login').click(function(){
             $.ajax({
-                url: baseurl+'/v1/users/',
-                type: 'GET',
+                // url: 'http://127.0.0.1:8001'+'/v1/users/',
+                url : 'http://127.0.0.1:8001/v1/users',
+                type: 'POST',
                 data: JSON.stringify(inputdata),
                 success:function(result){
                     if (result.code == 200){
-                        alert('test is ok')
+                        window.localStorage.clear()
+                        window.localStorage.setItem('cutepet_token',result.data.token)
+                        window.localStorage.setItem('cutepet_count',result.data.len)
+                        window.localStorage.setItem('cutepet_user',result.data.username)
+                        alter('登陆成功')
+                        window.location.href = 'index.html'
+                    }else{
+                        // 登录失败
+                        alert(result.error)
                     }
 
-                }
+                 }
             })
         })
     </script>

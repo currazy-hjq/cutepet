@@ -37,13 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'user',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -123,3 +126,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+CORS_ALLOW_METHODS = (
+				'DELETE',
+				'GET',
+				'OPTIONS',
+				'PATCH',
+				'POST',
+				'PUT',
+				)
+
+
+CORS_ALLOW_HEADERS = (
+				'accept-encoding',
+				'authorization',
+				'content-type',
+				'dnt',
+				'origin',
+				'user-agent',
+				'x-csrftoken',
+				'x-requested-with',
+			)
