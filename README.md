@@ -9,3 +9,5 @@ Django project 前后端分离
 1.user模块redis连接部分
 
 2.User模块active_url地址拼接
+
+3.celery中redis配置
