@@ -13,6 +13,7 @@ from django.views.generic.base import View
 from cutepet.settings import TESTURL
 from dtoken.views import make_token
 from user.models import User
+from .task import send_active_email
 
 
 def testview(request):
@@ -56,7 +57,7 @@ class Users(View):
         # 发送激活邮件
         random_int = random.randint(1000, 9999)
         code_str = username + str(random_int)
-        code_str_bs = base64.urlsafe_b64decode(code_str.encode())
+        code_str_bs = base64.urlsafe_b64encode(code_str.encode())
 
         # 将随机码储存在redis中,过期时间两天
         # TODO 上线后增加密码  为什么存redis
@@ -66,7 +67,7 @@ class Users(View):
         active_url = TESTURL + '/cutepet/templates/active.html?code=%s' % code_str_bs.decode()
 
         #异步发邮件
-        # send_active_email.delay(email, active_url)
+        send_active_email.delay(email, active_url)
         result = {'code': 200, 'username': username, 'data': {'token': token.decode()}}
         return JsonResponse(result)
 
