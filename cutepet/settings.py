@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'user',
+    'dtoken'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,6 @@ WSGI_APPLICATION = 'cutepet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': 'cutepet',
         'USER': 'root',
         'PASSWORD': '123456',
@@ -150,3 +150,9 @@ CORS_ALLOW_HEADERS = (
 				'x-csrftoken',
 				'x-requested-with',
 			)
+
+JWT_TOKEN_KEY = 'hjq416'
+
+APPEND_SLASH=False
+
+TESTURL = 'http://127.0.0.1:8195'

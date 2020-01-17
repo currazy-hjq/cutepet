@@ -43,7 +43,7 @@
                 <span class="weibo_login">微博登陆</span>
             </div>
             <div>
-                <input type="submit"
+                <input type="button"
                        class="btn"
                        id="bt-login"
                        value="登录">
@@ -51,32 +51,45 @@
         </form>
     <script src="../static/js/jquery.min.js"></script>
     <script>
-        var username = $('#username').val()
-        var password = $('#password').val()
-        // 获取用户本地缓存中的购物车信息
-        var cart_data = JSON.parse(window.localStorage.getItem('cart'))
-        var inputdata = {'username':username,'password':password}
         $('#bt-login').click(function(){
-            $.ajax({
-                // url: 'http://127.0.0.1:8001'+'/v1/users/',
-                url : 'http://127.0.0.1:8001/v1/users',
-                type: 'POST',
-                data: JSON.stringify(inputdata),
-                success:function(result){
-                    if (result.code == 200){
-                        window.localStorage.clear()
-                        window.localStorage.setItem('cutepet_token',result.data.token)
-                        window.localStorage.setItem('cutepet_count',result.data.len)
-                        window.localStorage.setItem('cutepet_user',result.data.username)
-                        alter('登陆成功')
-                        window.location.href = 'index.html'
-                    }else{
-                        // 登录失败
-                        alert(result.error)
-                    }
+            var username = $('#username').val()
+            var password = $('#password').val()
+            // 获取用户本地缓存中的购物车信息
+            var cart_data = JSON.parse(window.localStorage.getItem('cart'))
+            var inputdata = {'username':username,'password':password}
+            if (username != '' && password != '') {
+                $.ajax({
+                    url : baseurl+'/v1/token/',
+                    type: 'post',
+                    data: JSON.stringify(inputdata),
+                    contentType:'application/json',
+                    success:function(result){
+                        console.log(result.data)
+                        if (result.code == 200){
+                            window.localStorage.clear()
+                            window.localStorage.setItem('cutepet_token',result.data.token)
+                            // window.localStorage.setItem('cutepet_count',result.data.len)
+                            window.localStorage.setItem('cutepet_user',result.username)
+                            alert('登陆成功')
+                            // window.location.href = 'index.html'
+                        }else{
+                            // 登录失败
+                            alert(result.error)
+                        }
 
-                 }
-            })
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            // 状态码
+                            console.log(XMLHttpRequest.status);
+                            // 状态
+                            console.log(XMLHttpRequest.readyState);
+                            // 错误信息   
+                            console.log(textStatus);
+                        }
+                    })
+            }else{
+                alert('PLease fill all blanks!')
+            }    
         })
     </script>
 </body>

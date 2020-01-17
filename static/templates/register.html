@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/register.css">
+    <script src="../static/js/init.js"></script>
+    <title>注册</title>
+</head>
+
+<body>
+    <img id="bg" width="100%" src="../static/images/login_bg.jpg" alt="">
+    <div id="reg">
+        <p>新用户注册&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="login.html">直接登录</a>
+        </p>
+        <hr>
+        <form action="" method="POST">
+            <div>
+                昵称:
+                <input type="text" placeholder="请输入用户名,长度在6到9位之间哦" class="txt" id="username" name="username">
+            </div>
+            <div>
+                密码:
+                <input required type="password" placeholder="请输入密码,密码长度在6到12位之间哦" minlength="6" maxlength="12"
+                    class="txt" id="password" name="password">
+            </div>
+            <div>
+                确认:
+                <input required type="password" placeholder="再次输入密码,请确保和上次一致哦" minlength="6" maxlength="12" class="txt"
+                    id="password_1" name="password_1">
+            </div>
+            <div>
+                邮箱:
+                <input type="text" placeholder="请您的合法邮箱" class="txt" id="email" name="email">
+            </div>
+            <div>
+                手机:
+                <input type="text" placeholder="请您的手机号码" class="txt" value="15871378195" id="phone" name="phone">
+            </div>
+            <div>
+                <input type="button" class="btn" id="bt-register" value="提交注册信息">
+            </div>
+        </form>
+    </div>
+    <script src="../static/js/jquery.min.js"></script>
+    <script>
+        $('#bt-register').click(function () {
+            var username = $('#username').val()
+            var password = $('#password').val()
+            var password_1 = $('#password_1').val()
+            var email = $('#email').val()
+            var phone = $('#phone').val()
+            if (password != password_1) {
+                alert('Please confirm your password!')
+            }
+            if (username != '' && password != '' && email != '' && phone != '') {
+                var info = { 'username': username, 'password': password, 'password_1': password_1, 'email': email, 'phone': phone }
+                $.ajax({
+                    url: baseurl + '/v1/user/',
+                    type: 'post',
+                    data: JSON.stringify(info),
+                    contentType: 'application/json',
+                    success: function (res) {
+                        if (res.code == 200) {
+                            window.localStorage.setItem('cutepet_token', res.data.token)
+                            window.localStorage.setItem('cutepet_username', res.data.username)
+                            alert('注册成功!')
+                            // window.location.href = 'index.html'
+                        } else {
+                            alert(res.error)
+                        }
+                    }
+                })
+            } else {
+                alert('PLease fill all blanks')
+            }
+        })
+    </script>
+</body>
+
+</html>
