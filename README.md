@@ -11,3 +11,5 @@ Django project 前后端分离
 2.User模块active_url地址拼接
 
 3.celery中redis配置
+  worker启动命令:celery -A cutepet worker -l info
+  
